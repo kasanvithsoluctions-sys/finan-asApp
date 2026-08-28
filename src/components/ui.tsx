@@ -1,0 +1,8 @@
+"use client";
+import { Search, SlidersHorizontal, ChevronDown, X } from "lucide-react";
+import { ReactNode, useState } from "react";
+export function PageHead({eyebrow,title,description,action}:{eyebrow?:string,title:string,description?:string,action?:ReactNode}) { return <div className="page-head"><div>{eyebrow&&<div className="eyebrow">{eyebrow}</div>}<h1>{title}</h1>{description&&<p>{description}</p>}</div>{action}</div> }
+export function Toolbar({placeholder="Buscar...",children}:{placeholder?:string,children?:ReactNode}) { return <div className="toolbar"><label className="search"><Search size={16}/><input placeholder={placeholder}/><kbd>⌘ K</kbd></label><button className="btn secondary"><SlidersHorizontal size={16}/> Filtros</button>{children}</div> }
+export function Button({children,secondary=false,onClick}:{children:ReactNode,secondary?:boolean,onClick?:()=>void}) { return <button onClick={onClick} className={`btn ${secondary?"secondary":"primary"}`}>{children}</button> }
+export function Modal({trigger,title,children}:{trigger:ReactNode,title:string,children:ReactNode}) { const [open,setOpen]=useState(false); return <><span onClick={()=>setOpen(true)}>{trigger}</span>{open&&<div className="modal-back" onMouseDown={()=>setOpen(false)}><section className="modal" onMouseDown={e=>e.stopPropagation()}><header><div><span className="eyebrow">NOVA CONFIGURAÇÃO</span><h2>{title}</h2></div><button className="icon-btn" onClick={()=>setOpen(false)}><X size={19}/></button></header>{children}</section></div>}</> }
+export function SelectButton({label}:{label:string}) { return <button className="btn secondary">{label}<ChevronDown size={14}/></button> }

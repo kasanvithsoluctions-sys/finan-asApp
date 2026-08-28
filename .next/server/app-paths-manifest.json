@@ -1,0 +1,10 @@
+{
+  "/telas/page": "app/telas/page.js",
+  "/locais/page": "app/locais/page.js",
+  "/usuarios/page": "app/usuarios/page.js",
+  "/grupos/page": "app/grupos/page.js",
+  "/page": "app/page.js",
+  "/campanhas/page": "app/campanhas/page.js",
+  "/programacao/page": "app/programacao/page.js",
+  "/midias/page": "app/midias/page.js"
+}
