@@ -1,1 +1,5 @@
-import { UsersPage } from "@/components/operations"; export default UsersPage;
+import { UsersPage } from "@/components/operations";
+
+export default function Page() {
+  return <UsersPage />;
+}
