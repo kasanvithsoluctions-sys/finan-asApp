@@ -34,6 +34,15 @@ export const campaignSchema = z.object({
   objective: safeText("Objetivo", 3, 300),
 });
 
+export const scheduleSchema = z.object({
+  campaign: z.string().trim().min(1, "Selecione uma campanha.").max(100),
+  screen: z.string().trim().min(1, "Selecione uma tela.").max(100),
+  start: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/, "Informe uma data inicial válida."),
+  end: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/, "Informe uma data final válida."),
+}).superRefine((value,context)=>{
+  if(value.end<=value.start)context.addIssue({code:z.ZodIssueCode.custom,path:["end"],message:"O término deve ser posterior ao início."});
+});
+
 export type FieldErrors = Record<string, string>;
 
 export function getFieldErrors(error: z.ZodError): FieldErrors {

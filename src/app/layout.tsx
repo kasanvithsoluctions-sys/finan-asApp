@@ -5,6 +5,7 @@ import "./dashboard.css";
 import "./extra.css";
 import "./operations.css";
 import "./validation.css";
+import "./theme.css";
 import { AppShell } from "@/components/app-shell";
 const inter=Inter({subsets:["latin"],variable:"--font-body"});
 const manrope=Manrope({subsets:["latin"],variable:"--font-display"});

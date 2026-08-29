@@ -1,0 +1,73 @@
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e8efed;
+  --muted: #94a29f;
+  --line: #33413e;
+  --canvas: #101715;
+  --surface: #18211f;
+  --brand: #66c7b0;
+  --brand-dark: #4caa95;
+  --red: #ef8585;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] .main { background: var(--canvas); }
+html[data-theme="dark"] .topbar { background: rgba(24,33,31,.94); }
+html[data-theme="dark"] .global,
+html[data-theme="dark"] .global kbd,
+html[data-theme="dark"] .search,
+html[data-theme="dark"] .search input,
+html[data-theme="dark"] .search kbd,
+html[data-theme="dark"] .icon-btn,
+html[data-theme="dark"] .btn.secondary,
+html[data-theme="dark"] .data-wrap,
+html[data-theme="dark"] .data-table th,
+html[data-theme="dark"] .modal,
+html[data-theme="dark"] .field input,
+html[data-theme="dark"] .field select,
+html[data-theme="dark"] .media-grid article,
+html[data-theme="dark"] .screen-stage,
+html[data-theme="dark"] .device-info,
+html[data-theme="dark"] .info-sheet,
+html[data-theme="dark"] .related,
+html[data-theme="dark"] .timeline-list,
+html[data-theme="dark"] .schedule,
+html[data-theme="dark"] .seg button,
+html[data-theme="dark"] .date-nav button,
+html[data-theme="dark"] .report-filter,
+html[data-theme="dark"] .report-grid section,
+html[data-theme="dark"] .user-list,
+html[data-theme="dark"] .settings-grid button,
+html[data-theme="dark"] .portal-metrics,
+html[data-theme="dark"] .portal-campaign,
+html[data-theme="dark"] .wizard-options > label {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .data-table tbody tr:hover { background: #1d2926; }
+html[data-theme="dark"] .seg button.active { background: #d9ebe6; color: #14201d; }
+html[data-theme="dark"] .dropzone { background: #141d1b; }
+html[data-theme="dark"] .big-chart { background: repeating-linear-gradient(to bottom,var(--surface) 0,var(--surface) 44px,var(--line) 45px); }
+html[data-theme="dark"] .tabs em { background: #263330; }
+html[data-theme="dark"] .theme-toggle { color: var(--brand); }
+html[data-theme="dark"] input::placeholder { color: #72817d; }
+
+.new-slot {
+  background: #cfe8e1;
+  border-left-color: #2f8c78;
+  left: 55%;
+  width: 35%;
+}
+
+.schedule-filter {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font: inherit;
+  font-size: 10px;
+  height: 35px;
+  padding: 0 10px;
+}
+
+html[data-theme="dark"] .new-slot { background: #285247; }
