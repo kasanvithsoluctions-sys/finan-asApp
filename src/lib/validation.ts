@@ -44,3 +44,54 @@ export function getFieldErrors(error: z.ZodError): FieldErrors {
   }
   return errors;
 }
+
+export const MEDIA_UPLOAD_LIMITS = {
+  maxFiles: 10,
+  maxImageBytes: 25 * 1024 * 1024,
+  maxVideoBytes: 1024 * 1024 * 1024,
+  maxPayloadBytes: 2 * 1024 * 1024 * 1024,
+} as const;
+
+const mediaTypes: Record<string, readonly string[]> = {
+  "image/jpeg": ["jpg", "jpeg"],
+  "image/png": ["png"],
+  "image/webp": ["webp"],
+  "video/mp4": ["mp4"],
+  "video/webm": ["webm"],
+};
+
+export function validateMediaFiles(files: File[]): string[] {
+  const errors: string[] = [];
+  if (!files.length) return ["Selecione pelo menos um arquivo."];
+  if (files.length > MEDIA_UPLOAD_LIMITS.maxFiles) errors.push(`Envie no máximo ${MEDIA_UPLOAD_LIMITS.maxFiles} arquivos por vez.`);
+  if (files.reduce((total, file) => total + file.size, 0) > MEDIA_UPLOAD_LIMITS.maxPayloadBytes) errors.push("O envio total não pode ultrapassar 2 GB.");
+  for (const file of files) {
+    const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
+    const allowedExtensions = mediaTypes[file.type];
+    if (!allowedExtensions?.includes(extension)) {
+      errors.push(`${file.name}: formato não permitido ou extensão incompatível.`);
+      continue;
+    }
+    if (!file.size) errors.push(`${file.name}: o arquivo está vazio.`);
+    const limit = file.type.startsWith("image/") ? MEDIA_UPLOAD_LIMITS.maxImageBytes : MEDIA_UPLOAD_LIMITS.maxVideoBytes;
+    if (file.size > limit) errors.push(`${file.name}: excede o limite de ${file.type.startsWith("image/") ? "25 MB" : "1 GB"}.`);
+    if (file.name.length > 180 || /[<>\u0000-\u001F\u007F]/.test(file.name)) errors.push(`${file.name}: nome de arquivo inválido.`);
+  }
+  return [...new Set(errors)];
+}
+
+export async function validateMediaSignatures(files: File[]): Promise<string[]> {
+  const errors: string[] = [];
+  for (const file of files) {
+    const bytes = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+    const ascii = String.fromCharCode(...bytes);
+    const valid = file.type === "image/jpeg" ? bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff
+      : file.type === "image/png" ? [0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a].every((byte,index)=>bytes[index]===byte)
+      : file.type === "image/webp" ? ascii.slice(0,4) === "RIFF" && ascii.slice(8,12) === "WEBP"
+      : file.type === "video/mp4" ? ascii.slice(4,8) === "ftyp"
+      : file.type === "video/webm" ? [0x1a,0x45,0xdf,0xa3].every((byte,index)=>bytes[index]===byte)
+      : false;
+    if (!valid) errors.push(`${file.name}: o conteúdo não corresponde ao formato declarado.`);
+  }
+  return errors;
+}
